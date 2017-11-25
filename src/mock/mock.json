@@ -1,0 +1,48 @@
+{
+    "data": {
+        "cloumns": ["num","name","email","date","sex"],
+        "data": [{
+            "num": "1",
+            "name": "David",
+            "email": "David@qq.com",
+            "date": "2017-01-21 08:52:33",
+            "sex": "男"
+        }, {
+            "num": "2",
+            "name": "Joan",
+            "email": "Joan@qq.com",
+            "date": "2017-01-21 08:52:33",
+            "sex": "女"
+        }, {
+            "num": "3",
+            "name": "Robert",
+            "email": "Robert@qq.com",
+            "date": "2017-01-21 09:52:33",
+            "sex": "男"
+        }, {
+            "num": "4",
+            "name": "tom",
+            "email": "tom@qq.com",
+            "date": "2017-01-21 09:00:00",
+            "sex": "男"
+        }, {
+            "num": "5",
+            "name": "jack",
+            "email": "jack@qq.com",
+            "date": "2017-01-21 09:00:01",
+            "sex": "男"
+        }, {
+            "num": "6",
+            "name": "Alisa",
+            "email": "Alisa@qq.com",
+            "date": "2017-01-21 09:01:01",
+            "sex": "女"
+        }, {
+            "num": "7",
+            "name": "Diana",
+            "email": "Diana@qq.com",
+            "date": "2017-01-21 09:01:00",
+            "sex": "女"
+        }]
+    }
+}
