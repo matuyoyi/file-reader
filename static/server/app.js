@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("X-Powered-By",' 3.2.1')
+    res.header("X-Powered-By",'expresss')
     next();
 });
 
