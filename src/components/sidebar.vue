@@ -1,6 +1,27 @@
 <template>
     <div class="sidebar">
-        <Tree class="menu-list" :data="treeData"></Tree>
+        <Menu class="menu-list" theme="dark" active-name="" @on-select="select">
+            <MenuGroup title="文件管理">
+                <MenuItem name="excelFilter">
+                    <Icon type="document-text"></Icon>
+                    表格管理
+                </MenuItem>
+                <MenuItem name="docFilter">
+                    <Icon type="document-text"></Icon>
+                    文档管理
+                </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="统计分析">
+                <MenuItem name="3">
+                    <Icon type="heart"></Icon>
+                    用户留存
+                </MenuItem>
+                <MenuItem name="4">
+                    <Icon type="heart-broken"></Icon>
+                    流失用户
+                </MenuItem>
+            </MenuGroup>
+        </Menu>
     </div>
 </template>
 
@@ -8,38 +29,21 @@
 export default {
     data() {
         return {
-            treeData: [
-                {
-                    title: 'parent 1',
-                    expand: true,
-                    children: [
-                        {
-                            title: 'parent 1-1',
-                            expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-1-1'
-                                },
-                                {
-                                    title: 'leaf 1-1-2'
-                                }
-                            ]
-                        },
-                        {
-                            title: 'parent 1-2',
-                            expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-2-1'
-                                },
-                                {
-                                    title: 'leaf 1-2-1'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+
+        }
+    },
+    methods: {
+        select(MenuItem) {
+            switch(MenuItem) {
+            case 'excelFilter':
+                this.$router.push('excel-filter')
+                break;
+            case 'docFilter':
+                this.$router.push('doc-filter')
+                break;
+            default:
+                this.$router.push('/');
+            }
         }
     }
 }

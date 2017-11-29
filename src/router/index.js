@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import fileFilter from '@/components/fileFilter.vue'
+import excelFilter from '@/components/excelFilter.vue'
 import workbench from '@/components/workbench.vue'
+import testPage from '@/components/testPage.vue'
+import docFilter from '@/components/fileManage/docFilter.vue'
 
 Vue.use(Router)
 
@@ -12,7 +14,9 @@ export default new Router({
             name: 'workbench',
             component: workbench,
             children: [
-                { path: 'file-filter', component: fileFilter }
+                { path: '/', component: testPage },
+                { path: 'excel-filter', component: excelFilter },
+                { path: 'doc-filter', component: docFilter }
             ]
         }
     ]

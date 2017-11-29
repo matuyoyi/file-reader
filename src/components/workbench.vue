@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style lang="scss">
-$navH: 60px;
 .workbench {
     width: 100%;
     height: 100%;
@@ -35,7 +34,7 @@ $navH: 60px;
     .wrapper {
         display: flex;
         width: 100%;
-        height: calc(100% - $navH);
+        height: calc(100% - 60px);
     }
 }
 </style>
