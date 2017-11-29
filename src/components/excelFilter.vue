@@ -1,18 +1,20 @@
 <template>
-    <div class="file-filter">
-        <Upload action="http://localhost:3000/upload">
+    <div class="excel-filter">
+        <Upload action="http://192.168.246.130:3000/upload">
             <Button type="ghost" icon="ios-cloud-upload-outline">数据导入</Button>
         </Upload>
-        <Table ref="table" :columns="columns" :data="tableData"></Table>
-        <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
-        <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
-        <Button type="primary" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
+        <Table ref="table" class="table" :columns="columns" :data="tableData"></Table>
+        <div class="tool-btn-group">
+            <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
+            <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
+            <Button type="primary" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "fileFilter",
+    name: "excelFilter",
     data() {
         return {
             columns: [],
@@ -63,8 +65,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-    .file-filter {
-        width: 100%;
-        height: 100%;
+.excel-filter {
+    width: calc(100% - 250px);
+    height: 100%;
+    padding: 8px 16px 8px 0;
+    .table {
+        height: calc(100% - 88px);
     }
+    .tool-btn-group {
+        margin-top: 8px;
+        height: 40px;
+    }
+}
 </style>

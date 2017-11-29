@@ -8,11 +8,11 @@ router.get('/upload', function (req, res, next) {
     res.send('index');
 });
 router.post('/upload', (req, res, next) => {
-    const data = req.files.file;
-    const fileName = data.name;
+    const reqData = req.files.file;
+    const fileName = reqData.name;
     var suffix = fileName.replace(/.+\./, '');
     if(suffix === 'csv') {
-        const bufferList = data.data.toString().split(/\r\n+/); // convert buffer to String[]
+        const bufferList = reqData.data.toString().split(/\r\n+/); // convert buffer to String[]
         const fileData = [];
         bufferList.forEach(element => {
             const arr = element.split(',');
@@ -98,6 +98,22 @@ router.post('/upload', (req, res, next) => {
                 }
             }
         }
+    } else if(suffix === 'docx') {
+        const filePath = '/code/file-reader/static/server/public/'+fileName;
+        req.files.file.mv(filePath,  function(err) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            const AdmZip = require('adm-zip'); //引入查看zip文件的包
+            const zip = new AdmZip(filePath); //filePath为文件路径
+            let contentXml = zip.readAsText("word/document.xml");//将document.xml读取为text内容
+            let str = "";
+            contentXml.match(/<w:t>[\s\S]*?<\/w:t>/ig).forEach((item)=>{
+                str += item.slice(5,-6)+'\r\n'
+            });
+            res.send(str);
+
+        })
     }
 })
 function sendMail(param) {
