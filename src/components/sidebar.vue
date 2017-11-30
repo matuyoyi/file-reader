@@ -11,14 +11,10 @@
                     文档管理
                 </MenuItem>
             </MenuGroup>
-            <MenuGroup title="统计分析">
+            <MenuGroup title="更多功能">
                 <MenuItem name="3">
-                    <Icon type="heart"></Icon>
-                    用户留存
-                </MenuItem>
-                <MenuItem name="4">
                     <Icon type="heart-broken"></Icon>
-                    流失用户
+                    待开发
                 </MenuItem>
             </MenuGroup>
         </Menu>
