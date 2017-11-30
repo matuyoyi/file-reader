@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import excelFilter from '@/components/excelFilter.vue'
+import excelFilter from '@/components/fileManage/excelFilter.vue'
 import workbench from '@/components/workbench.vue'
 import testPage from '@/components/testPage.vue'
 import docFilter from '@/components/fileManage/docFilter.vue'

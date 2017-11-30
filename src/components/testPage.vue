@@ -5,7 +5,7 @@
 </template>
 
 <script>
-/* window.onload = function() {
+window.onload = function() {
     cool();
 }
 function cool() {
@@ -54,7 +54,7 @@ function cool() {
     document.onclick = i
     document.ontouchstart = i
     i()
-} */
+}
 export default {
     mounted() {
         cool();

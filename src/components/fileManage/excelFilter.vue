@@ -1,6 +1,6 @@
 <template>
     <div class="excel-filter">
-        <Upload action="http://192.168.246.130:3000/upload">
+        <Upload action="http://192.168.246.130:3000/upload-file">
             <Button type="ghost" icon="ios-cloud-upload-outline">数据导入</Button>
         </Upload>
         <Table ref="table" class="table" :columns="columns" :data="tableData"></Table>
