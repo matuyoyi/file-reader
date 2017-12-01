@@ -5,20 +5,25 @@
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传Excel文件</Button>
             </Upload>
             <Input class="search-input" icon="search" v-model="keyword" placeholder="表格内搜索"></Input>
+            <div class="tool-btn-group">
+                <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
+                <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
+                <Button type="primary" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export filtered data</Button>
+            </div>
         </div>
         <div class="table-area">
-            <div class="checkbox-group">
-                <Checkbox v-show="originalCol.length > 0" v-model="selectAll" @on-change="handleChangeAll">全部</Checkbox>
-                <Checkbox-group v-model="checkedGroup" @on-change="changeTableColumns">
-                    <Checkbox v-for="item in originalCol" :key="item.title" :label="item.title">{{item.title}}</Checkbox>
-                </Checkbox-group>
-            </div>
-            <Table ref="table" class="table" :columns="columns" :data="tableData"></Table>
-        </div>
-        <div class="tool-btn-group">
-            <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
-            <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
-            <Button type="primary" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export filtered data</Button>
+            <Tabs type="card" :animated="false" @on-click="handleChangeTab">
+                <TabPane v-for="(sheet,index) in sheetList" :key="sheet.name" :label="sheet.name">
+                    <div class="checkbox-group">
+                        <Checkbox v-show="sheet.originalCol.length > 0" v-model="selectAll[index]" @on-change="handleChangeAll">全部</Checkbox>
+                        <Checkbox-group v-model="checkedGroup[index]" @on-change="changeTableColumns">
+                            <Checkbox v-for="item in sheet.originalCol" :key="item.title" :label="item.title">{{item.title}}</Checkbox>
+                        </Checkbox-group>
+                    </div>
+                    <Table ref="table" class="table" :columns="sheet.columns" :data="sheet.data"></Table>
+                </TabPane>
+            </Tabs>
+
         </div>
         <!-- select the filter column -->
         <Modal
@@ -53,19 +58,25 @@ export default {
             originTableData: [],
             tableColumnsChecked: [],
             originalCol: [],
-            selectAll: true,
+            selectAll: [],
             keyword: '',
             filterColumn: '',
             showModal: false,
             showDateTimeModal: false,
+            sheetList: [],
+            currentIndex: 0,
         };
     },
     computed: {
         checkedGroup: {
             get() {
                 const arr = [];
-                _.each(this.columns, (item) => {
-                    arr.push(item.title)
+                _.each(this.sheetList, (sheet) => {
+                    const temp = [];
+                    _.each(sheet.columns, (item) => {
+                        temp.push(item.title)
+                    })
+                    arr.push(temp)
                 })
                 return arr;
             },
@@ -88,7 +99,7 @@ export default {
             } else {
                 this.tableData = this.originTableData.slice(0);
             }
-        }
+        },
     },
     methods: {
         exportData(type) {
@@ -105,28 +116,39 @@ export default {
             }
         },
         uploadSuccess(response, file, fileList) {
-            const data = response;
+            this.sheets = null;
+            this.sheets = response;
+
             this.$Message.success('上传成功');
-            this.columns.splice(0)
-            this.originalCol.splice(0);
-            for(let i = 0; i < data.columns.length; i++) {
-                this.columns.push({
-                    title: data.columns[i],
-                    key: data.columns[i]
+            _.each(this.sheets, (sheet) => {
+                this.selectAll.push(true);
+                const columns = [];
+                _.each(sheet.columns, (column) => {
+                    columns.push({
+                        title: column,
+                        key: column,
+                    })
                 })
-                this.originalCol = this.columns.slice(0);
-            }
-            this.tableData = data.data;
-            this.originTableData = this.tableData.slice(0);
+                const originalCol = columns.slice(0);
+                this.sheetList.push({
+                    name: sheet.name,
+                    columns,
+                    originalCol,
+                    data: sheet.data,
+                    originData: sheet.data,
+                })
+            })
+            console.log(this.sheetList)
         },
         handleChangeAll(val) {
             if(val) {
-                this.columns = this.originalCol.slice(0);
+                this.sheetList[this.currentIndex].columns = this.sheetList[this.currentIndex].originalCol.slice(0);
             } else {
-                this.columns.splice(0);
+                this.sheetList[this.currentIndex].columns.splice(0);
             }
         },
         changeTableColumns(val) {
+            console.log(this.currentIndex)
             const arr = [];
             _.each(val, (item) => {
                 arr.push({
@@ -134,7 +156,7 @@ export default {
                     key: item
                 })
             })
-            this.columns = arr;
+            this.sheetList[this.currentIndex].columns = arr;
         },
         handleUpload(file) {
             const appendix = file.name.replace(/.+\./, '');
@@ -147,6 +169,9 @@ export default {
         handleCancel() {},
         selectTime(val) {
             this.filterTime = val
+        },
+        handleChangeTab(val) {
+            this.currentIndex = val;
         }
     }
 };
@@ -165,22 +190,32 @@ export default {
             width: 300px;
             margin-left: 16px;
         }
+        .tool-btn-group {
+            height: 100%;
+            margin-left: 55px;
+        }
     }
     .table-area {
-        height: calc(100% - 88px);
-        .checkbox-group {
-            height: 40px;;
-        }
-        .table {
-            height: calc(100% - 40px);
-            .ivu-table-body {
-                height: 100%;
+        height: calc(100% - 45px);
+        .ivu-tabs {
+            height: 100%;
+            .ivu-tabs-content {
+                height: calc(100% - 40px);
+                .ivu-tabs-tabpane {
+                    height: 100%;
+                    .checkbox-group {
+                        height: 40px;;
+                    }
+                    .table {
+                        height: calc(100% - 40px);
+                        .ivu-table-body {
+                            height: calc(100% - 46px);
+                        }
+                    }
+                }
             }
         }
     }
-    .tool-btn-group {
-        margin-top: 8px;
-        height: 40px;
-    }
+
 }
 </style>
