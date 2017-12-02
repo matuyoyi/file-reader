@@ -16,7 +16,7 @@ body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fo
 body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }
 h1, h2, h3, h4, h5, h6{ font-size:100%; }
 address, cite, dfn, em, var { font-style:normal; }
-code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
+code, kbd, pre, samp { font-family: 'Avenir', Helvetica, Arial, sans-serif; }
 small{ font-size:12px; }
 ul, ol { list-style:none; }
 a { text-decoration:none; }

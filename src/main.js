@@ -7,6 +7,7 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import axios from 'axios';
 import 'lodash';
+import STORE from './lib/vuex';
 
 Vue.config.productionTip = false;
 
@@ -17,6 +18,7 @@ Vue.prototype.$http = axios;
 new Vue({
   el: '#app',
   router,
+  store: STORE,
   template: '<App/>',
   components: { App }
 })
