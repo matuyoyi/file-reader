@@ -1,7 +1,7 @@
 <template>
     <div class="filter-area excel-filter">
         <div class="upload">
-            <Upload action="http://192.168.246.130:3000/upload-file" :before-upload="handleUpload" :on-success="uploadSuccess" :show-upload-list="false">
+            <Upload :action='actionUrl' :before-upload="handleUpload" :on-success="uploadSuccess" :show-upload-list="false">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传Excel文件</Button>
             </Upload>
             <Input class="search-input" icon="search" v-model="keyword" placeholder="表格内搜索"></Input>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import actionUrl from '../../../static/uploadconfig.json';
 
 export default {
     name: "excelFilter",
@@ -51,7 +52,6 @@ export default {
         return {
             columns: [],
             tableColumnsChecked: [],
-            selectAll: true,
             keyword: '',
             showModal: false,
             sheetList: [],
@@ -120,6 +120,13 @@ export default {
         },
         width() {
             return this.$store.workbench.state.width;
+        },
+        actionUrl() {
+            const url = actionUrl.url;
+            return `${url}/upload-file`;
+        },
+        selectAll() {
+            return this.sheetList.length > 0 ? this.currentColumns.length === this.sheetList[this.currentIndex].originalCol.length : false;
         }
     },
     watch: {
@@ -182,9 +189,9 @@ export default {
         },
         handleChangeAll(val) {
             if(val) {
-                this.sheetList[this.currentIndex].columns = this.sheetList[this.currentIndex].originalCol.slice(0);
+                this.currentColumns = this.sheetList[this.currentIndex].originalCol.slice(0);
             } else {
-                this.sheetList[this.currentIndex].columns.splice(0);
+                this.currentColumns.splice(0);
             }
         },
         changeTableColumns(val) {
@@ -246,9 +253,6 @@ export default {
 
 <style lang="scss">
 .filter-area {
-    width: 100%;
-    height: 100%;
-    padding: 8px 16px;
     .upload {
         margin-bottom: 8px;
         display: flex;

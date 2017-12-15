@@ -1,6 +1,6 @@
 <template>
     <div class="filter-area doc-filter">
-        <Upload class="upload" action="http://192.168.246.130:3000/upload-file" :on-success="uploadSuccess" :show-upload-list="false">
+        <Upload class="upload" :action="actionUrl" :on-success="uploadSuccess" :show-upload-list="false">
             <Button type="ghost" icon="ios-cloud-upload-outline">上传word文件</Button>
         </Upload>
         <div>
@@ -10,10 +10,17 @@
 </template>
 
 <script>
+import actionUrl from '../../../static/uploadconfig.json';
+
 export default {
     data() {
         return {
             data: null,
+        }
+    },
+    computed: {
+        actionUrl() {
+            return `${actionUrl.url}/upload-file`;
         }
     },
     methods: {
