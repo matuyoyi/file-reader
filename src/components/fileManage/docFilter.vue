@@ -16,12 +16,14 @@ export default {
     data() {
         return {
             data: null,
+            actionUrl: '',
         }
     },
-    computed: {
-        actionUrl() {
-            return `${actionUrl.url}/upload-file`;
-        }
+    created() {
+        this.$http('/static/uploadconfig.json').then((response) => {
+            const url = response.data.url;
+            this.actionUrl = `${url}/upload-file`;
+        })
     },
     methods: {
         uploadSuccess(response, file, fileList) {

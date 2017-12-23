@@ -64,6 +64,7 @@ export default {
                 filterTime: '',
             },
             timeRange: [],
+            actionUrl: '',
         };
     },
     computed: {
@@ -121,10 +122,6 @@ export default {
         width() {
             return this.$store.workbench.state.width;
         },
-        actionUrl() {
-            const url = actionUrl.url;
-            return `${url}/upload-file`;
-        },
         selectAll() {
             return this.sheetList.length > 0 ? this.currentColumns.length === this.sheetList[this.currentIndex].originalCol.length : false;
         }
@@ -146,6 +143,12 @@ export default {
                 this.currentTable = this.sheetList[this.currentIndex].data.slice(0);
             }
         },
+    },
+    created() {
+        this.$http('/static/uploadconfig.json').then((response) => {
+            const url = response.data.url;
+            this.actionUrl = `${url}/upload-file`;
+        })
     },
     methods: {
         exportData(type) {
